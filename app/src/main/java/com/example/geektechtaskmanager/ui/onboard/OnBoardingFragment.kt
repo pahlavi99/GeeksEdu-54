@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.geektechtaskmanager.R
-import com.example.geektechtaskmanager.data.remote.Pref
+import com.example.geektechtaskmanager.data.local.Pref
 import com.example.geektechtaskmanager.databinding.FragmentOnBoardingBinding
 import com.example.geektechtaskmanager.ui.model.OnBoard
 

@@ -11,11 +11,9 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import com.example.geektechtaskmanager.R
-import com.example.geektechtaskmanager.data.remote.Pref
+import com.example.geektechtaskmanager.data.local.Pref
 import com.example.geektechtaskmanager.databinding.FragmentAvatarBinding
 import com.example.geektechtaskmanager.ui.model.Profile
-import com.example.geektechtaskmanager.ui.profile.adapter.ProfileAdapter
 
 class AvatarFragment : Fragment() {
 

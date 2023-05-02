@@ -1,12 +1,16 @@
 package com.example.geektechtaskmanager.ui.home
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import com.example.geektechtaskmanager.App
 import com.example.geektechtaskmanager.R
 import com.example.geektechtaskmanager.databinding.FragmentHomeBinding
 import com.example.geektechtaskmanager.ui.home.adapter.TaskAdapter
@@ -21,7 +25,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val adapter = TaskAdapter()
+    private val adapter = TaskAdapter(onLongClick = this::onLongClick)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,14 +42,29 @@ class HomeFragment : Fragment() {
 
         binding.idRecycler.adapter = adapter
 
-        setFragmentResultListener(TaskFragment.TASK_REQUEST){ requestKey, bundle ->
-            val result = bundle.getSerializable(TaskFragment.TASK_KEY) as Task
-            adapter.addTask(result)
-        }
-
+        val list = App.db.taskDao().getAll()
+        adapter.addTasks(list)
         binding.idFab.setOnClickListener {
             findNavController().navigate(R.id.taskFragment)
         }
     }
 
+    private fun onLongClick(task: Task)
+    {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Delete Room")
+        builder.setMessage("Do you want to delete an item")
+            .setPositiveButton("YES",
+                DialogInterface.OnClickListener {dialog, which ->
+                    App.db.taskDao().delete(task)
+                    dialog.dismiss()
+                })
+            .setNegativeButton("NO",
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+        // Create the AlertDialog object and return it
+        builder.create().show()
+
+    }
 }

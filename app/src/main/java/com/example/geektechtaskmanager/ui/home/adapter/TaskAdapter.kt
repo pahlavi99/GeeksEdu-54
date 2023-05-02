@@ -7,13 +7,22 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.geektechtaskmanager.databinding.ItemTaskBinding
 import com.example.geektechtaskmanager.ui.model.Task
 
-class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>(){
+class TaskAdapter(
+    private val onLongClick : (Task) -> Unit
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>(){
 
-    private val arrayList = ArrayList<Task>()
+    private var arrayList = ArrayList<Task>()
+
 
     fun addTask(task: Task)
     {
         arrayList.add(0, task)
+        notifyDataSetChanged()
+    }
+    fun addTasks(tasks: List<Task>)
+    {
+        arrayList.clear()
+        arrayList.addAll(tasks)
         notifyDataSetChanged()
     }
 
@@ -29,12 +38,16 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>(){
         return arrayList.size
     }
 
-    class TaskViewHolder(var binding: ItemTaskBinding) : ViewHolder(binding.root)
+    inner class TaskViewHolder(var binding: ItemTaskBinding) : ViewHolder(binding.root)
     {
         fun bind(task: Task)
         {
             binding.tvTitle.text = task.title
             binding.tvDesc.text = task.description
+            binding.root.setOnLongClickListener{
+                onLongClick(task)
+                false
+            }
         }
     }
 }

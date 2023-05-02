@@ -1,4 +1,4 @@
-package com.example.geektechtaskmanager.data.remote
+package com.example.geektechtaskmanager.data.local
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -26,18 +26,11 @@ class Pref(val context: Context) {
 
     fun getUserName(): String? = pref.getString(USER_NAME_KEY, "")
 
-    fun savePhoto(photo: Int)
-    {
-        pref.edit().putString(USER_PHOTO_KEY, photo.toString()).apply()
-    }
-
-    fun getPhoto() : Int? = pref.getInt(USER_PHOTO_KEY, 0)
 
     companion object
     {
         const val TASK_PREF_NAME = "TaskPref"
         const val USER_SEEN_KEY = "user.seen"
         const val USER_NAME_KEY = "user.name"
-        const val USER_PHOTO_KEY = "user.photo"
     }
 }
